@@ -11,7 +11,7 @@ def get_weather():
     city_name = request.args.get("city")
     try:
         uniq_id, lat, lon = get_location_key(city_name).values()
-        weather_data = get_weather_by_city(uniq_ud)
+        weather_data = get_weather_by_city(uniq_id)
     except ValueError:
         return {
             "status": "error",
