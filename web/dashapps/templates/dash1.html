@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Route Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .btn-group {
+            float: right;
+        }
+        .add-button {
+            display: none;
+            position: absolute;
+            margin-left: 10px;
+        }
+        .list-group-item {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Route</h1>
+        <div class="embed-responsive" style="height: 100vh;">
+             <iframe
+                     src="{{ dash_url }}?{{ cities }}&uuid={{ uuid }}"
+                     style="overflow-x: hidden; overflow-y: visible; overflow-x: hidden; position: absolute; width: 95%; height: 100%; background: transparent"
+            ></iframe>
+        </div>
+    </div>
+</body>
+</html>

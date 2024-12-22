@@ -10,7 +10,12 @@ def get_location_key(city_name):
     if response.status_code == 200:
         data = response.json()
         if data:
-            return data[0]["Key"]
+            obj = data[0]
+            return {
+                "uniq_id": obj["Key"],
+                "lat": obj["GeoPosition"]["Latitude"],
+                "lon": obj["GeoPosition"]["Longitude"],
+            }
     return None
 
 
@@ -49,13 +54,3 @@ def get_weather_by_city(city_name: str) -> dict:
         }
     except Exception as e:
         raise ValueError(f"Failed to fetch weather data for city {city_name}: {str(e)}")
-
-
-def check_bad_weather(temp: float, wind_speed: float, prec_prob: float) -> str:
-    """
-    Checks if the weather is good
-    :param temp: Current temperature
-    :param wind_speed: Current wind speed
-    :param prec_prob: Current precipiation probability
-    """
-    return "неблагоприятные " if (temp < -25 or temp > 35) or (wind_speed > 50) or (prec_prob > 70) else "благоприятные"

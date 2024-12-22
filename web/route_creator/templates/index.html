@@ -135,12 +135,10 @@
 
             const form = document.getElementById('sendCitiesForm');
 
-            <!-- form.querySelectorAll('input[name="cities[]"]').forEach(input => input.remove()); -->
-
             cities.forEach(city => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
-                input.name = 'cities[]'; // Use 'cities[]' to create an array in the query string
+                input.name = 'city';
                 input.value = city;
                 form.appendChild(input);
             });
