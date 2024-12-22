@@ -46,20 +46,13 @@ def get_weather_by_city(city_name: str) -> dict:
         weather_params = {"apikey": config.API_KEY, "details": "true", "metric": True}
         weather_response = requests.get(weather_url, params=weather_params)
         weather_data = weather_response.json()['DailyForecasts']
-        print(weather_data)
+        data = {}
 
-        return {
-            "temperature_one": weather_data[0]["Temperature"]["Maximum"]["Value"],
-            "wind_speed_one": weather_data[0]["Day"]["Wind"]["Speed"]["Value"],
-            "precipitation_probability_one": weather_data[0]["Day"].get("PrecipitationProbability", 0),
-            
-            "temperature_three": weather_data[2]["Temperature"]["Maximum"]["Value"],
-            "wind_speed_three": weather_data[2]["Day"]["Wind"]["Speed"]["Value"],
-            "precipitation_probability_three": weather_data[2]["Day"].get("PrecipitationProbability", 0),
-            
-            "temperature_five": weather_data[4]["Temperature"]["Maximum"]["Value"],
-            "wind_speed_five": weather_data[4]["Day"]["Wind"]["Speed"]["Value"],
-            "precipitation_probability_five": weather_data[4]["Day"].get("PrecipitationProbability", 0),
-        }
+        for i in range(len(weather_data)):
+            data[f"temperature_{i}"] = weather_data[i]["Temperature"]["Maximum"]["Value"]
+            data[f"wind_speed_{i}"] = weather_data[i]["Day"]["Wind"]["Speed"]["Value"]
+            data[f"precipitation_probability_{i}"] = weather_data[i]["Day"].get("PrecipitationProbability", 0)
+
+        return data
     except Exception as e:
         raise ValueError(f"Failed to fetch weather data for city {city_name}: {str(e)}")

@@ -31,11 +31,11 @@ def add_dash(server: Flask):
         dcc.Dropdown(
             id='days',
             options=[
-                {'label': 'Now', 'value': 'one'},
-                {'label': 'After 3 days', 'value': 'three'},
-                {'label': 'After 5 days', 'value': 'five'}
+                {'label': 'Now', 'value': '0'},
+                {'label': 'After 3 days', 'value': '2'},
+                {'label': 'After 5 days', 'value': '4'}
             ],
-            value='one'
+            value='0'
         ),
         dcc.Dropdown(
             id='weather-parameter',

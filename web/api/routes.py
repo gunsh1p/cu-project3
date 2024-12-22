@@ -10,7 +10,8 @@ bp = Blueprint("api", __name__)
 def get_weather():
     city_name = request.args.get("city")
     try:
-        weather_data = get_weather_by_city(get_location_key(city_name))
+        uniq_id, lat, lon = get_location_key(city_name).values()
+        weather_data = get_weather_by_city(uniq_ud)
     except ValueError:
         return {
             "status": "error",
