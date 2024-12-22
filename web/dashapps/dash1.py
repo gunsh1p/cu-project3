@@ -29,6 +29,15 @@ def add_dash(server: Flask):
     app.layout = html.Div([
         dcc.Location(id='url', refresh=False),
         dcc.Dropdown(
+            id='days',
+            options=[
+                {'label': 'Now', 'value': 'one'},
+                {'label': 'After 3 days', 'value': 'three'},
+                {'label': 'After 5 days', 'value': 'five'}
+            ],
+            value='one'
+        ),
+        dcc.Dropdown(
             id='weather-parameter',
             options=[
                 {'label': 'Temperature', 'value': 'temperature'},
@@ -36,7 +45,6 @@ def add_dash(server: Flask):
                 {'label': 'Wind Speed', 'value': 'wind_speed'}
             ],
             value='temperature'
-
         ),
         dcc.Graph(id='weather-graph', style={'height': '500px'}),
         dcc.Graph(id='weather-map', style={'height': '500px'}),
@@ -48,11 +56,12 @@ def add_dash(server: Flask):
             Output('weather-map', 'figure')
         ],
         [
+            Input('days', 'value'),
             Input('weather-parameter', 'value'),
             Input('url', 'search'),
         ],
     )
-    def update_graph(selected_parameter, cities):
+    def update_graph(selected_days, selected_parameter, cities):
         params = parse_qs(cities[1:])
         cities = params['city']
         uuid = params['uuid'][0]
@@ -70,18 +79,16 @@ def add_dash(server: Flask):
             
             data = pd.DataFrame(data)
             data['city'] = cities
-            data = data[['city', 'temperature', 'precipitation_probability', 'wind_speed', 'lat', 'lon']]
             update_graph.data[uuid] = data
-            print(data)
         
         if selected_parameter == 'temperature':
-            graph = create_temperature_graph(update_graph.data[uuid])
+            graph = create_temperature_graph(update_graph.data[uuid], selected_days)
         elif selected_parameter == 'precipitation':
-            graph = create_precipitation_graph(update_graph.data[uuid])
+            graph = create_precipitation_graph(update_graph.data[uuid], selected_days)
         elif selected_parameter == 'wind_speed':
-            graph = create_wind_speed_graph(update_graph.data[uuid])
+            graph = create_wind_speed_graph(update_graph.data[uuid], selected_days)
 
-        return graph, create_map(update_graph.data[uuid])
+        return graph, create_map(update_graph.data[uuid], selected_days)
         
 
     return server
